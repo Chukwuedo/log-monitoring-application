@@ -39,7 +39,7 @@ class RawLogEntry(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True) # Adding this line to allow Pydantic to recognise pendulum methods as types where necessary
 
 
-class LogEntry(BaseModel, ThresholdMixin):
+class LogMessage(BaseModel, ThresholdMixin):
     """Pydantic model representing a processed log entry ready for output."""
 
     start_time: pendulum.Time | None = None

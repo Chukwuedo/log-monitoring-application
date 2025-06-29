@@ -3,8 +3,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.utils import parse_uploaded_log_file_contents
-from src.log_model import RawLogEntry, LogEntryType
+from src.utils import (
+    parse_uploaded_log_file_contents,
+    extract_continuous_log_entries,
+)
+from src.log_model import RawLogEntry, LogEntryType, LogMessage
 
 
 def test_parse_uploaded_log_file_contents():
@@ -24,3 +27,21 @@ def test_parse_uploaded_log_file_contents():
     assert entries[3].job_description == "Job B"
     assert entries[2].timestamp.hour == 12
     assert entries[3].timestamp.minute == 15
+    
+def test_extract_continuous_log_entries():
+    """Test the extract_continuous_log_entries function."""
+    file_contents = """
+    12:00:00, Job A, START, 1234
+    12:05:00, Job A, END, 1234
+    12:10:00, Job B, START, 5678
+    12:15:00, Job B, END, 5678
+    """
+    continuous_entries = extract_continuous_log_entries(file_contents)
+    
+    assert len(continuous_entries) == 2
+    assert isinstance(continuous_entries[1234], LogMessage)
+    assert continuous_entries[1234].start_time is not None
+    assert continuous_entries[1234].job_description == "Job A"
+    assert continuous_entries[5678].job_description == "Job B"
+    assert continuous_entries[1234].start_time.hour == 12
+    assert continuous_entries[5678].end_time.minute == 15
