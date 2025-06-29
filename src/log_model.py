@@ -40,7 +40,31 @@ class LogEntry(BaseModel):
     end_time: pendulum.Time | None = None
     job_description: str | None = None
     log_id: int
-    duration: pendulum.Duration | None = None
+    
+    @property
+    def duration(self) -> pendulum.Duration | None:
+        """Calculate the duration between start and end times dynamically."""
+        if all([self.start_time, self.end_time]):
+            
+            start_dt = pendulum.datetime(
+                2025,
+                6,
+                29,  # Assuming a fixed date since logo entries do not include a date
+                self.start_time.hour,
+                self.start_time.minute,
+                self.start_time.second,
+            )
+            end_dt = pendulum.datetime(
+                2025,
+                6,
+                29,  # Same assumption of a fixed date since log entries do not include a date
+                self.end_time.hour,
+                self.end_time.minute,
+                self.end_time.second,
+            )
+
+            return end_dt - start_dt
+        return None
     threshold_indicator: ThresholdIndicatorTtype | None = None
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
