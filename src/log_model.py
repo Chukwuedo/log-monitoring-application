@@ -1,6 +1,9 @@
 """Pydantic models representing log entries.
 
 These models are used to validate and parse log entries from the input log file and generate output logs.
+
+Returns:
+    _type_: _description_
 """
 
 from enum import Enum

@@ -1,3 +1,11 @@
+""" Module for parsing and processing log files using Pydantic models defined in src/log_model.py.
+
+This module provides functionality to parse raw log file contents, extract relevant log entries, and format them for output.
+
+Returns:
+    _type_: _description_
+"""
+
 from src.log_model import RawLogEntry, LogEntryType, LogMessage
 from loguru import logger
 import pendulum
