@@ -30,4 +30,17 @@ class RawLogEntry(BaseModel):
     log_entry_type: LogEntryType
     pid: int
 
-    model_config = ConfigDict(arbitrary_types_allowed=True) # Adding this line to allow Pydantic to recognise pendulum.Time as a type
+    model_config = ConfigDict(arbitrary_types_allowed=True) # Adding this line to allow Pydantic to recognise pendulum methods as types where necessary
+
+
+class LogEntry(BaseModel):
+    """Pydantic model representing a processed log entry ready for output."""
+
+    start_time: pendulum.Time | None = None
+    end_time: pendulum.Time | None = None
+    job_description: str | None = None
+    log_id: int
+    duration: pendulum.Duration | None = None
+    threshold_indicator: ThresholdIndicatorTtype | None = None
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
