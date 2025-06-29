@@ -84,4 +84,24 @@ def write_out_proper_log_file(file_contents: str) -> str:
         str: A formatted string representing the processed log entries in a suitable format for the output log file.
     """
     
-    pass
+    continuous_entries = extract_continuous_log_entries(file_contents)
+    
+    if not continuous_entries:
+        logger.warning("No continuous log entries found to write out.")
+        return ""
+    
+    output_lines = []
+    for entry in continuous_entries.values():
+        
+        if not all([entry.start_time, entry.end_time, entry.job_description]):
+            logger.warning(f"Incomplete log entry for PID {entry.log_id}: {entry}")
+            continue
+        
+        log_entry = ""
+        if entry.threshold_indicator is not None:
+            log_entry += f"{entry.threshold_indicator}, "
+        log_entry += f"{entry.start_time}, {entry.log_id}, {entry.job_description}, {entry.duration.in_words() if entry.duration else ''}"
+        
+        output_lines.append(log_entry)
+    
+    return "\n".join(output_lines)
