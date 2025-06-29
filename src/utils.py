@@ -2,7 +2,7 @@ from src.log_model import RawLogEntry, LogEntryType, LogMessage
 from loguru import logger
 import pendulum
 
-def parse_uploaded_log_file_contents(file_contents:str) -> list[RawLogEntry]:
+def parse_uploaded_log_file_contents(file_contents: str) -> list[RawLogEntry]:
     """Parse the contents of an uploaded log file.
 
     This function takes the raw contents of a log file and parses them into the RawLogEntry model for validation and further processing.
@@ -37,7 +37,7 @@ def parse_uploaded_log_file_contents(file_contents:str) -> list[RawLogEntry]:
 
     return entries
 
-def extract_continuous_log_entries(file_contents) -> dict[int, LogMessage]:
+def extract_continuous_log_entries(file_contents: str) -> dict[int, LogMessage]:
     """Extract continuous log entries from the provided file contents.
 
     This function processes the raw log entries and extracts continuous log entries based on their start and end times.
@@ -70,3 +70,18 @@ def extract_continuous_log_entries(file_contents) -> dict[int, LogMessage]:
             log.end_time = entry.timestamp
             
     return continuous_entries
+
+
+def write_out_proper_log_file(file_contents: str) -> str:
+    """Write out the processed log entries to a properly formatted string.
+
+    This function processes the continuous log entries and formats them into a string suitable for the output log file.
+
+    Args:
+        file_contents (str): The raw contents of the uploaded log file.
+
+    Returns:
+        str: A formatted string representing the processed log entries in a suitable format for the output log file.
+    """
+    
+    pass
