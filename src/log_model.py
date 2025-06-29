@@ -8,7 +8,13 @@ from pydantic import BaseModel, ConfigDict
 import pendulum
 
 
-class ThresholdIndicatorTtype(str, Enum):
+class ThresholdMixin:
+    """Mixin class to define threshold durations for log entries, so they can be easily reused, accessed and modified."""
+    warning_threshold = pendulum.duration(minutes=5)
+    error_threshold = pendulum.duration(minutes=10)
+
+
+class ThresholdIndicatorType(str, Enum):
     """Enum representing the type of threshold indicator."""
 
     WARNING = "WARNING"
@@ -33,7 +39,7 @@ class RawLogEntry(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True) # Adding this line to allow Pydantic to recognise pendulum methods as types where necessary
 
 
-class LogEntry(BaseModel):
+class LogEntry(BaseModel, ThresholdMixin):
     """Pydantic model representing a processed log entry ready for output."""
 
     start_time: pendulum.Time | None = None
@@ -65,6 +71,16 @@ class LogEntry(BaseModel):
 
             return end_dt - start_dt
         return None
-    threshold_indicator: ThresholdIndicatorTtype | None = None
+
+    @property
+    def threshold_indicator(self) -> ThresholdIndicatorType | None:
+        """Determine the threshold indicator dynamically based on the duration and comparing against predefined thresholds."""
+        dur = self.duration
+        if dur is not None:
+            if dur > self.error_threshold:
+                return ThresholdIndicatorType.ERROR
+            elif dur > self.warning_threshold:
+                return ThresholdIndicatorType.WARNING
+        return None
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
