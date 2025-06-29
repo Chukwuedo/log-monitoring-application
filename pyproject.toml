@@ -4,4 +4,7 @@ version = "0.1.0"
 description = "An application that processes log files to calculate job durations, apply threshold indicators to an output log file."
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.115.14",
+    "pydantic>=2.11.7",
+]
