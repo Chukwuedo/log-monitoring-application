@@ -107,7 +107,7 @@ def write_out_proper_log_file(file_contents: str) -> str:
         
         log_entry = ""
         if entry.threshold_indicator is not None:
-            log_entry += f"{entry.threshold_indicator}, "
+            log_entry += f"{entry.threshold_indicator.value}, "
         log_entry += f"{entry.start_time}, {entry.log_id}, {entry.job_description}, {entry.duration.in_words() if entry.duration else ''}"
         
         output_lines.append(log_entry)

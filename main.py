@@ -19,7 +19,7 @@ async def process_log_file(file: UploadFile = File(...)):
     contents = (await file.read()).decode("utf-8")
     processed_logs = write_out_proper_log_file(contents)
     return_file = io.StringIO(processed_logs)
-    timestamp = pendulum.now("UTC").format("YYYYMMDDHHmmss")
+    timestamp = pendulum.now("UTC").format("YYYYMMDDTHHmmss")
     output_filename = f"{timestamp}_log_output.txt"
     
     return StreamingResponse(
