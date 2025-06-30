@@ -149,6 +149,7 @@ uv.lock
 # Log files (for log monitoring application)
 logs/
 *.log
+!/*.log
 log_files/
 
 # Database files
