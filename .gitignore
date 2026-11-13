@@ -140,7 +140,6 @@ cython_debug/
 
 # uv specific
 .uv/
-uv.lock
 
 # FastAPI specific
 # config/local.py
