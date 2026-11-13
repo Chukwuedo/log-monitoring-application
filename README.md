@@ -20,18 +20,7 @@ A FastAPI application that processes log files to calculate job durations, apply
    cd log-monitoring-application
    ```
 
-2. Create and activate a virtual environment
-   ```bash
-   # Windows
-   python -m venv .venv
-   .venv\Scripts\activate
-
-   # Linux/macOS
-   python -m venv .venv
-   source .venv/bin/activate
-   ``` 
-
-3. Install dependencies
+2. Install dependencies (uv creates and manages `.venv` for you)
    ```bash
    uv sync
    ```
@@ -54,7 +43,7 @@ log-monitoring-application/
 
 Run the application
 ```bash
-uvicorn main:app --port 8080 --reload
+uv run uvicorn main:app --port 8080 --reload
 ```
 
 
@@ -77,10 +66,10 @@ Access the API at [http://localhost:8080/docs](http://localhost:8080/docs)
 
 ## Testing
 
-Ensure you have activated the virtual environment before running the tests. Once done, run the command below
+Run the test suite with uv:
 
 ```bash
-pytest
+uv run pytest
 ```
 
 ## CSV Format
